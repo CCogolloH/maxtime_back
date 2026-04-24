@@ -11,6 +11,12 @@ pipeline {
         APP_CONTAINER = 'maxtime_app'
     }
 
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 20, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
     stages {
         stage('Limpiar workspace') {
             steps {
@@ -115,4 +121,5 @@ pipeline {
             echo 'El pipeline falló. Revisar Console Output.'
         }
     }
+
 }
