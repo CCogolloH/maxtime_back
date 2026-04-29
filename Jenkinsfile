@@ -80,19 +80,19 @@ pipeline {
             steps {
                 sshagent(credentials: ['oracle-vm-deploy']) {
                     sh '''
-                        scp -o StrictHostKeyChecking=no app.jar ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/app.jar
+                        scp -o StrictHostKeyChecking=no app.jar ubuntu@141.148.5.105:/home/ubuntu/springboot-docker/app.jar
                     '''
                 }
             }
         }
 
-        stage('Redeploy solo app') {
+        stage('Redeploy con Docker Compose') {
             steps {
                 sshagent(credentials: ['oracle-vm-deploy']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "
-                            cd ${REMOTE_PATH} &&
-                            docker compose up -d --no-deps --build ${APP_SERVICE}
+                        ssh -o StrictHostKeyChecking=no ubuntu@141.148.5.105 "
+                            cd /home/ubuntu/springboot-docker &&
+                            docker compose up -d --build
                         "
                     '''
                 }
