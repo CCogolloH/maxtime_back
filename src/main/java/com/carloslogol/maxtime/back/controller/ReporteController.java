@@ -1,9 +1,6 @@
 package com.carloslogol.maxtime.back.controller;
 
-import com.carloslogol.maxtime.back.dto.reporte.RegistroRequestDTO;
-import com.carloslogol.maxtime.back.dto.reporte.RegistroResponseDTO;
-import com.carloslogol.maxtime.back.dto.reporte.ServicioResponseDTO;
-import com.carloslogol.maxtime.back.dto.reporte.ValidarResponseDTO;
+import com.carloslogol.maxtime.back.dto.reporte.*;
 import com.carloslogol.maxtime.back.model.Reporte;
 import com.carloslogol.maxtime.back.service.ReporteService;
 import jakarta.annotation.PostConstruct;
@@ -47,6 +44,19 @@ public class ReporteController {
         if(reporte == null) throw new RuntimeException("No se encontro este perfil: " + perfil);
 
         return ResponseEntity.ok(ServicioResponseDTO.convert(reporte));
+    }
+
+    @GetMapping("/proyecto")
+    public ResponseEntity<ProyectoResponseDTO> consultarProyectoPorPerfil(@RequestParam String perfil, String fecha) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(fecha, formatter);
+
+        Date fecha2 = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Reporte reporte = reporteService.obtenerPorPerfilyFecha(perfil, fecha2);
+
+        return ResponseEntity.ok(ProyectoResponseDTO.convert(reporte));
+
     }
 
     @PostMapping("/registro_por_perfil")
