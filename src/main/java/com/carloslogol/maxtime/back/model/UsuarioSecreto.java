@@ -17,8 +17,8 @@ import java.time.OffsetDateTime;
 public class UsuarioSecreto {
 
     @Id
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "perfil", nullable = false)
+    private String perfil;
 
     @Column(name = "usuario", nullable = false)
     private String usuario;

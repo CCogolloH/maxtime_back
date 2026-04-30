@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class SecretoRequestDTO {
 
-    @NotBlank(message = "El usuario no puede ser vacío")
-    private String usuario;
+    @NotBlank(message = "El perfil no puede ser vacío")
+    private String perfil;
 
     @NotBlank(message = "La contraseña no puede estar vacía")
     private String contrasena;

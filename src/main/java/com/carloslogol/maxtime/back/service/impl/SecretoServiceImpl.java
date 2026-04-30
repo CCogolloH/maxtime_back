@@ -33,11 +33,11 @@ public class SecretoServiceImpl implements SecretoService {
 
     @Override
     public SecretoResponseDTO saveSecreto(SecretoRequestDTO request) {
-        String usuarioEncriptado = encrypt(request.getUsuario());
+        String usuarioEncriptado = encrypt(request.getPerfil());
         String contrasenaEncriptada = encrypt(request.getContrasena());
 
         UsuarioSecreto secreto = UsuarioSecreto.builder()
-                .name(request.getUsuario()+"_maxtime")
+                .perfil(request.getPerfil())
                 .usuario(usuarioEncriptado)
                 .contrasena(contrasenaEncriptada)
                 .build();
@@ -45,10 +45,15 @@ public class SecretoServiceImpl implements SecretoService {
         UsuarioSecreto saved = repository.save(secreto);
 
         return new SecretoResponseDTO(
-                saved.getName(),
+                saved.getPerfil(),
                 saved.getUsuario(),
                 saved.getContrasena()
         );
+    }
+
+    @Override
+    public UsuarioSecreto obtenerPorPerfil(String perfil) {
+        return repository.findByPerfil(perfil);
     }
 
     private String encrypt(String plainText) {
